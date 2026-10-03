@@ -316,7 +316,6 @@
   }
 }
 
-/* Fallback — letak di bawah .ch */
 @media (prefers-reduced-motion: reduce) {
   .ch {
     opacity: 1 !important;
@@ -1273,27 +1272,50 @@
     } catch (e) {}
 
     /* ========== Hero Text Animation ========== */
-    [..."Lusamine Scent"].forEach((c, i) => {
-      const s = document.createElement("span");
-      s.className = "ch" + (i > 8 ? " gold" : "");
-      s.style.setProperty("--i", i);
-      s.textContent = c === " " ? "\u00A0" : c;
-      $("h1").appendChild(s);
-    });
+   /* ===== Title (ganti yang lama) ===== */
+const title = "Lusamine Scent";
+const h1 = document.getElementById("h1");
+h1.innerHTML = "";
 
-    $("track").innerHTML = PRODUCTS.map((p) => `<span>${p.name}</span><span>✦</span>`).join("").repeat(4);
+let delay = 0;
+title.split(" ").forEach((word, wi) => {
+  const wordSpan = document.createElement("span");
+  wordSpan.style.display = "inline-block";
+  wordSpan.style.whiteSpace = "nowrap";
 
-    let ti = 0;
-    const tl = $("tl");
-    tl.textContent = TAGS[0];
-    setInterval(() => {
-      tl.classList.add("out");
-      setTimeout(() => {
-        ti = (ti + 1) % TAGS.length;
-        tl.textContent = TAGS[ti];
-        tl.classList.remove("out");
-      }, 500);
-    }, 3600);
+  if (wi > 0) {
+    const space = document.createElement("span");
+    space.innerHTML = "&nbsp;";
+    space.className = "ch";
+    space.style.setProperty("--i", delay++);
+    h1.appendChild(space);
+  }
+
+  [...word].forEach((c) => {
+    const s = document.createElement("span");
+    s.className = "ch" + (wi === 1 ? " gold" : "");
+    s.style.setProperty("--i", delay++);
+    s.textContent = c;
+    wordSpan.appendChild(s);
+  });
+
+  h1.appendChild(wordSpan);
+});
+
+/* ===== Yang ni biar (jangan padam) ===== */
+$("track").innerHTML = PRODUCTS.map((p) => `<span>${p.name}</span><span>✦</span>`).join("").repeat(4);
+
+let ti = 0;
+const tl = $("tl");
+tl.textContent = TAGS[0];
+setInterval(() => {
+  tl.classList.add("out");
+  setTimeout(() => {
+    ti = (ti + 1) % TAGS.length;
+    tl.textContent = TAGS[ti];
+    tl.classList.remove("out");
+  }, 500);
+}, 3600);
 
     /* ========== Social Links & Copy URL ========== */
     const socialHTML = SOCIAL.map(([n, u]) =>
