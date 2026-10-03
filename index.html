@@ -298,19 +298,32 @@
     }
 
     .ch {
-      display: inline-block;
-      opacity: 0;
-      transform: translateY(60px) rotate(6deg);
-      animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-      animation-delay: calc(var(--i) * 55ms + 0.2s);
-    }
+  display: inline-block;
+  opacity: 1;
+  transform: none;
+  animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 55ms + 0.2s);
+}
 
-    @keyframes rise {
-      to {
-        opacity: 1;
-        transform: none;
-      }
-    }
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Fallback — letak di bawah .ch */
+@media (prefers-reduced-motion: reduce) {
+  .ch {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
 
     #tl {
       font: italic 500 clamp(1.4rem, 3vw, 2rem)/1.2 'Cormorant Garamond', serif;
